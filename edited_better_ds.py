@@ -1,6 +1,4 @@
 """
-Hello,
-
 This is a primitive 'dataset search engine'. It takes a text file
 with queries and then matchs and scores against a datatset of lines
 consisting of 3 elements [id, item, brand].
