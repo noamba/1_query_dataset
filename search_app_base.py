@@ -25,8 +25,8 @@ import csv
 
 
 def main():
-    dataset = load_dataset('search_dataset.csv')
-    process_query_file('queries.txt', True,  dataset)
+    dataset = load_dataset('data/search_dataset.csv')
+    process_query_file('queries/queries.txt', True,  dataset)
 
 
 def load_dataset(dataset_file):

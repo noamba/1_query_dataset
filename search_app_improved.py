@@ -7,8 +7,8 @@ from collections import defaultdict
 
 
 def main():
-    data_set = load_dataset('search_dataset.csv')
-    process_query_file('queries.txt', True, *data_set)
+    data_set = load_dataset('data/search_dataset.csv')
+    process_query_file('queries/queries.txt', True, *data_set)
 
 
 def load_dataset(dataset_file):
