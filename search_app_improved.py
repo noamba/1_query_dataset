@@ -71,7 +71,7 @@ def _process_one_query(query, print_output, items_by_keyword_start, items_by_id,
 
 def _calculate_score(keywords, item):
     score = 0
-    item_length = len(item)
+    keywords_length = len(keywords)
     # look for full words
     score, remaining_keywords, remaining_item =\
             _find_match(keywords, 
@@ -88,7 +88,7 @@ def _calculate_score(keywords, item):
                                 0.3,
                                 score)
     if score > 0:
-        score = (float(score)/item_length)
+        score = (float(score)/keywords_length)
 
     return score
 
