@@ -1,15 +1,17 @@
+#!/usr/bin/python3
 """
 See instructions in README file
 """
 import csv
 from collections import defaultdict
 
+
 def main():
-    data_set = load_dataset()
-    process_query_file('queries.txt', *data_set)
+    data_set = load_dataset('search_dataset.csv')
+    process_query_file('queries.txt', True, *data_set)
 
 
-def load_dataset():
+def load_dataset(dataset_file):
     """
     It is more efficient (O(n) vs. O(1)) to search a dictionary or a set 
     compared to a list as they are implemented with a hash.
@@ -19,7 +21,7 @@ def load_dataset():
     items_by_keyword_start = defaultdict(set)
     items_by_id = defaultdict(set)
 
-    with open('minimini.csv') as f:
+    with open(dataset_file) as f:
         lines = csv.reader(f, delimiter=',')
         for line in lines:
             
@@ -39,13 +41,13 @@ def load_dataset():
     return (items_by_keyword_start,items_by_id, items_original_form)
 
 
-def process_query_file(file, *data_set):
+def process_query_file(file, print_output, *data_set):
     with open(file) as f:
         for query_line in f:
-            _process_one_query(query_line, *data_set)
+            _process_one_query(query_line, print_output, *data_set)
 
 
-def _process_one_query(query, items_by_keyword_start, items_by_id, items_original_form):
+def _process_one_query(query, print_output, items_by_keyword_start, items_by_id, items_original_form):
     keywords = query.lower().split()
     relevant_items_id = set()
     results = []
@@ -61,7 +63,8 @@ def _process_one_query(query, items_by_keyword_start, items_by_id, items_origina
         if score > 0:
             results.append([str(score)] + items_original_form[item_id])
 
-    _print_results(query, results)
+    if print_output:
+        _print_results(query, results)
 
     return 
 
