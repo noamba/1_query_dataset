@@ -9,7 +9,7 @@ repeat=2 # test is repeated to get multiple results
 
 
 print("**** Dataset as Dictionaries ****")
-setup = "import edited_better_ds as e"
+setup = "import search_app_improved as e"
 setup_with_loaded_dataset = setup + "; data_set = e.load_dataset('search_dataset.csv')"
 
 print("Time to load dataset: ")
@@ -21,7 +21,7 @@ print(timeit.repeat("e.process_query_file('queries.txt', False, *data_set)", set
 
 
 print("\n\n**** Dataset as List ****")
-setup = "import edited_continued as e"
+setup = "import search_app_base as e"
 setup_with_loaded_dataset = setup + "; data_set = e.load_dataset('search_dataset.csv')"
 
 print("Time to load dataset: ")

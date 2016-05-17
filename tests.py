@@ -1,5 +1,7 @@
+#!/usr/bin/python3
+
 import unittest
-from edited_continued import calculate_score 
+from search_app_base import calculate_score 
 
 class LearningCase(unittest.TestCase):
 
