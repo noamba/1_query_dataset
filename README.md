@@ -1,5 +1,9 @@
 # query_dataset
 
+*****
+Runs on Python 3
+*****
+
 This is a primitive 'dataset search engine'. It takes a text file
 with queries and then matchs and scores against a datatset of lines
 consisting of 3 elements [id, item, brand].
@@ -18,5 +22,3 @@ edited_better_ds.py
 
 queries.txt
 search_dataset.csv
-
-Runs on Python 3
