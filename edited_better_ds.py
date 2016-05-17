@@ -1,10 +1,10 @@
 """
 Hello,
 
-This is a primitive 'search engine'. It takes a file with queries and then
-matchs and scores against a datatset of lines
+This is a primitive 'dataset search engine'. It takes a text file
+with queries and then matchs and scores against a datatset of lines
 consisting of 3 elements [id, item, brand].
-It outputs the number of matches per query, the items matached and
+It outputs the number of matches per query, the items matched and
 their score ordered by descending score.
 
 Scoring could be improved as only measuring:
@@ -17,7 +17,7 @@ names of files:
 queries.txt
 search_dataset.csv
 
-Runs on Python 2 and 3
+Runs on Python 3
 """
 import csv
 from collections import defaultdict
