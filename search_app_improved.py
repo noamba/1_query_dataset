@@ -1,14 +1,13 @@
-#!/usr/bin/python3
 """
 See instructions in README file
 """
 import csv
 from collections import defaultdict
-
+from stop_words import get_stop_words
 
 def main():
-    data_set = load_dataset('data/search_dataset.csv')
-    process_query_file('queries/queries.txt', True, *data_set)
+    data_set_dicts_list = load_dataset('data/search_dataset.csv')
+    process_query_file('queries/queries.txt', True, data_set_dicts_list)
 
 
 def load_dataset(dataset_file):
@@ -20,31 +19,34 @@ def load_dataset(dataset_file):
     items_original_form = defaultdict(set)
     items_by_keyword_start = defaultdict(set)
     items_by_id = defaultdict(set)
+    
+    stop_words = get_stop_words('english')
 
     with open(dataset_file) as f:
         lines = csv.reader(f, delimiter=',')
         for line in lines:
-            
-            item_id, *descriptors = line 
-            
-            # save original form for output
+
+            item_id, *descriptors = line  
+
+            # save original form (3 seperate fields: id, description, company name) for output
             items_original_form[item_id] = descriptors
 
             # create 2 dictionaries for searching: 
             # 1. Key: 3 lower-case first letters of each word of item descriptors. Value: item ids. 
-            # 2. Key: item id. Value: item descriptorsin lower-case.
+            # 2. Key: item id. Value: item descriptors in lower-case.
             descriptors_set = set(" ".join(descriptors).lower().split())
             for d in descriptors_set:
-                items_by_keyword_start[d[:3]].add(item_id) 
+                if d not in stop_words:
+                    items_by_keyword_start[d[:3]].add(item_id) 
             items_by_id[item_id] = descriptors_set
             
     return (items_by_keyword_start,items_by_id, items_original_form)
 
 
-def process_query_file(file, print_output, *data_set):
+def process_query_file(file, print_output, data_set_dicts_list):
     with open(file) as f:
         for query_line in f:
-            _process_one_query(query_line, print_output, *data_set)
+            _process_one_query(query_line, print_output, *data_set_dicts_list)
 
 
 def _process_one_query(query, print_output, items_by_keyword_start, items_by_id, items_original_form):
@@ -105,8 +107,8 @@ def _find_match(keywords, item, match_type, points_for_similarity, score):
         remaining_item_copy = remaining_item.copy()
         for word in remaining_item_copy:
             if (match_type == "full_word" and kw == word)\
-                    or\
-                    (match_type == "start_of_word" and (word.startswith(kw) or kw.startswith(word))):
+                   or\
+                   (match_type == "start_of_word" and (word.startswith(kw) or kw.startswith(word))):
             
                 score += points_for_similarity 
                 # if there was a match:
@@ -116,12 +118,12 @@ def _find_match(keywords, item, match_type, points_for_similarity, score):
                 # 2. stop looking for matches for this current keyword
                 break
 
-    return score, keywords, remaining_item
+    return score, remaining_keywords, remaining_item
 
 
 def _print_results(query_line, results):
 
-    print (query_line, end="")
+    print (query_line)
     print (len(results))
 
     results.sort(reverse=True)  # Will sort automatically by first element

@@ -1,9 +1,7 @@
-#!/usr/bin/python3
-
 import unittest
 from search_app_base import calculate_score 
 
-class LearningCase(unittest.TestCase):
+class SearchTestCase(unittest.TestCase):
 
     def test_score_is_1_on_perfect_match(self):
         query = "Red Shirt Prada"
