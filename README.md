@@ -4,37 +4,37 @@
 Runs on Python 3
 *****
 
-This is an exercise with a 'dataset search engine'. The program takes two files:
-* a text file with queries (i.e. keywords to search for), one query per line.
-* a csv dataset file (70k lines), with one clothing item per line. Each item  
-  consists of 3 elements [id, item, brand].
-
-The program attempts to get the best matches for each query against the dataset.
-
-The idea was that search time should be optimized while the dataset loading time is not important.
+This is an exercise with a 'dataset search engine'. The program attempts 
+to get the best matches for queries against a dataset. A further goal was to 
+optimize search time (while dataset loading time was not important). 
 
 Three versions created and analyzed:
 * search_app_base, using a list for all dataset items
 * search_app_improved, using dictionaries and sets to improve search time
 * c_search_app_improved, a cythonised version of the improved code to optimize further with c code
+The last version is more than 10 times faster than the first (naive) solution.
+For convenience and interest the output of the performance analysis is
+provided below.
 
-Output:
-* Query words (keywords)
-* Number of matches or partial matches in the dataset
-* Top ten items matched according to their score ordered by descending score
+The program takes two files:
+* A text file with queries (i.e. keywords to search for), one query per line.
+* A csv dataset file (70k lines), with one clothing item per line. Each item  
+  consists of 3 elements [id, item, brand].
 
-Performance analysis (see output below):
-* Timings
-* Profiles
-
-Scoring:
-* Number of keyword occurrences in entry
+Scoring is based on:
+* Number of unigram keyword occurrences in an entry
 * Full match (non-case sensitive)
 * Partial match on word beginning
 
+Output:
+* Query (keywords)
+* Number of matches or partial matches for this query in the dataset
+* Top ten items matched, ordered by descending score
 
-For convenience and interest here is the output of the performance analysis (efficiency analysis.py):
-
+Performance analysis includes:
+* Timings
+* Profiles
+See efficiency analysis.py output below:
 
 ______General descriptive information_______
 
