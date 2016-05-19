@@ -36,7 +36,19 @@ Performance analysis includes:
 * Timings 
 * Profiles
  
-See efficiency analysis.py output below: 
+To install and run on linux: 
+Install git and virtualenv then issue:
+git clone https://github.com/noamba/1_query_dataset somedir
+cd somedir
+virtualenv -p python3 env
+source env/bin/activate 
+pip3 install -r requirements.txt
+That's it. 
+Run any file ending with .py while activated with python3 name_of_file.py
+To run the cythonised c_search_app_improved you will need to import it as done in efficiency_analysis.py
+
+
+Following is the output of efficiency_analysis.py: 
 
 ```
 ______General descriptive information_______
