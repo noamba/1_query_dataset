@@ -4,37 +4,38 @@
 Runs on Python 3
 *****
 
-This is an exercise with a 'dataset search engine'. The program attempts 
-to get the best matches for queries against a dataset. A further goal was to 
+This is an exercise with a 'dataset search engine'. The goal was to 
+get the best matches for a list of queries against a dataset. A further goal was to 
 optimize search time (while dataset loading time was not important). 
 
-Three versions created and analyzed:
-* search_app_base, using a list for all dataset items
+Three versions were created and analyzed:
+* search_app_base (the naive approach), using a list for all dataset items
 * search_app_improved, using dictionaries and sets to improve search time
-* c_search_app_improved, a cythonised version of the improved code to optimize further with c code
-The last version is more than 10 times faster than the first (naive) solution.
-For convenience and interest the output of the performance analysis is
-provided below.
+* c_search_app_improved, a cythonised version of the improved code to optimize further with c code.
 
-The program takes two files:
-* A text file with queries (i.e. keywords to search for), one query per line.
-* A csv dataset file (70k lines), with one clothing item per line. Each item  
-  consists of 3 elements [id, item, brand].
+The last version is more than 10 times faster than the first solution, and gives better results. 
+For convenience and interest the output of the performance analysis is 
+provided below. 
 
-Scoring is based on:
-* Number of unigram keyword occurrences in an entry
-* Full match (non-case sensitive)
-* Partial match on word beginning
+The program takes two files as input: 
+* A text file with queries (i.e. keywords to search for), one query per line. 
+* A csv dataset file with one clothing item per line. Each item 
+  consists of 3 elements [id, item, brand]. There are close to 70,000 items. 
 
-Output:
-* Query (keywords)
-* Number of matches or partial matches for this query in the dataset
-* Top ten items matched, ordered by descending score
+Scoring is based on: 
+* Number of unigram keyword occurrences in an entry 
+* Full match (non-case sensitive) 
+* Partial match on word beginning 
 
-Performance analysis includes:
-* Timings
-* Profiles
-See efficiency analysis.py output below:
+Output: 
+* Query (keywords) 
+* Number of matches or partial matches for this query in the dataseta 
+* Top ten items matched, ordered by descending score 
+
+Performance analysis includes: 
+* Timings 
+* Profiles 
+See efficiency analysis.py output below: 
 
 ______General descriptive information_______
 
