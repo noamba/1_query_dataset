@@ -5,9 +5,9 @@ import csv
 from collections import defaultdict
 from stop_words import get_stop_words
 
-def main():
-    data_set_dicts_list = load_dataset('data/search_dataset.csv')
-    process_query_file('queries/queries.txt', True, data_set_dicts_list)
+def main(dataset, queries_file, print_output):
+    data_set_dicts_list = load_dataset(dataset)
+    process_query_file(queries_file, print_output, data_set_dicts_list)
 
 
 def load_dataset(dataset_file):
@@ -136,4 +136,4 @@ def _print_results(query_line, results):
 
 
 if __name__ == "__main__":
-    main()
+    main('data/search_dataset.csv', 'queries/queries.txt', True)

@@ -24,9 +24,9 @@ Ruins on Python 2 and 3
 import csv
 
 
-def main():
-    dataset = load_dataset('data/search_dataset.csv')
-    process_query_file('queries/queries.txt', True,  dataset)
+def main(dataset, queries_file, print_output):
+    dataset = load_dataset(dataset)
+    process_query_file(queries_file, print_output,  dataset)
 
 
 def load_dataset(dataset_file):
@@ -118,4 +118,4 @@ def print_results(query_line, matches, results):
 
 
 if __name__ == "__main__":
-    main()
+    main('data/search_dataset.csv', 'queries/queries.txt', True)
