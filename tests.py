@@ -1,6 +1,14 @@
 import unittest
 from search_app_base import calculate_score 
 
+"""
+
+Some tests for search_app_base.
+Not full coverage.
+
+"""
+
+
 class SearchTestCase(unittest.TestCase):
 
     def test_score_is_1_on_perfect_match(self):

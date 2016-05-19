@@ -3,17 +3,8 @@ import cProfile
  
 import search_app_base as base_search
 import search_app_improved as improved_search
+import c_search_app_improved as c_improved_search
 
-
-def average_dict_width(dictionary):
-
-    dictionary_length = len(dictionary)
-
-    total_values = 1
-    for v in dictionary.values():
-        total_values += len(v)    
-
-    return dictionary_length, total_values/dictionary_length
 
 def main():
     
@@ -42,7 +33,18 @@ def descriptive_data(dataset, queries_file):
         length, width = average_dict_width(items_by_keyword_start)
         print("\n    Keyword (first letters) Dictionary entries: ", length) 
         print("    Keyword (first letters) Dictionary avg. width (wider is slower): ", width)
+
         
+def average_dict_width(dictionary):
+
+    dictionary_length = len(dictionary)
+
+    total_values = 1
+    for v in dictionary.values():
+        total_values += len(v)    
+
+    return dictionary_length, total_values/dictionary_length
+
 
 def timeit_benchmark(dataset, queries_file):   # Benchmarking with timeit:
     """
@@ -54,16 +56,19 @@ def timeit_benchmark(dataset, queries_file):   # Benchmarking with timeit:
     number=1 # times the tested function is run for timing
     repeat=2 # test is repeated to get multiple results 
     
+    # printouts:
+    time_to_load = "Time to load dataset: "  
+    time_to_process = "Time to process query file (no dataset loading, no printout): "
 
-    print("\n\n________PROFILING with timeit_________")
+    print("\n\n________TIMINGS with timeit_________")
     print("\n**** Dataset as List (search_app_base) ****")
     setup = "import search_app_base as e"
     setup_with_loaded_dataset = setup + "; data_set = e.load_dataset('" + dataset + "')"
 
-    print("Time to load dataset: ")
+    print(time_to_load)
     print(timeit.repeat("e.load_dataset('" + dataset + "')", setup=setup, number=number, repeat=repeat))
 
-    print("Time to process query file (no dataset loading, no printout): ")
+    print(time_to_process)
     print(timeit.repeat("e.process_query_file('" + queries_file + "', False, data_set)", setup=setup_with_loaded_dataset, number=number, repeat=repeat))
 
 
@@ -71,11 +76,11 @@ def timeit_benchmark(dataset, queries_file):   # Benchmarking with timeit:
     setup = "import search_app_improved as e"
     setup_with_loaded_dataset = setup + "; data_set = e.load_dataset('" + dataset + "')"
 
-    print("Time to load dataset: ")
+    print(time_to_load)
     print(timeit.repeat("e.load_dataset('" + dataset + "')", setup=setup, number=number, repeat=repeat))
 
 
-    print("Time to process query file (no dataset loading, no printout): ")
+    print(time_to_process)
     print(timeit.repeat("e.process_query_file('" + queries_file + "', False, data_set)", setup=setup_with_loaded_dataset, number=number, repeat=repeat))
 
 
@@ -83,10 +88,10 @@ def timeit_benchmark(dataset, queries_file):   # Benchmarking with timeit:
     setup = "import c_search_app_improved as e"
     setup_with_loaded_dataset = setup + "; data_set = e.load_dataset('data/search_dataset.csv')"
 
-    print("Time to load dataset: ")
+    print(time_to_load)
     print(timeit.repeat("e.load_dataset('" + dataset + "')", setup=setup, number=number, repeat=repeat))
 
-    print("Time to process query file (no dataset loading, no printout): ")
+    print(time_to_process)
     print(timeit.repeat("e.process_query_file('" + queries_file + "', False, data_set)", setup=setup_with_loaded_dataset, number=number, repeat=repeat))
 
 
@@ -98,6 +103,9 @@ def cprofile_benchmark(dataset, queries_file):
 
     print(" \n**** search_app_improved ****\n")
     cProfile.run("improved_search.main('" + dataset + "', '" + queries_file + "', False)", sort="time")
+
+    print(" \n**** cythonised c_search_app_improved ****\n")
+    cProfile.run("c_improved_search.main('" + dataset + "', '" + queries_file + "', False)", sort="time")
 
 
 if __name__ == "__main__":
