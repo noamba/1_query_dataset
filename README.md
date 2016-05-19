@@ -13,7 +13,7 @@ Three versions were created and analyzed:
 * search_app_improved, using dictionaries and sets to improve search time
 * c_search_app_improved, a cythonised version of the improved code to optimize further with c code.
 
-The last version is more than 10 times faster than the first solution, and gives better results. 
+The last version is more than 10 times faster than the first solution. 
 For convenience and interest the output of the performance analysis is 
 provided below. 
 

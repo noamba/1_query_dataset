@@ -1,26 +1,3 @@
-#!/usr/bin/python3
-
-"""
-Hello,
-
-This is a primitive 'search engine'. It takes a file with queries and then
-matchs and scores against a datatset of lines
-consisting of 3 elements [id, item, brand].
-It outputs the numberof matches per query, the items matached and
-their score ordered by descending score.
-
-Scoring could be improved as only measuring:print
-Number of key-word occurances in entry
-Full match but non-case sensitive
-Partial match on word beginnin
-
-names of files:
-
-queries.txt
-search_dataset.csv
-
-Ruins on Python 2 and 3
-"""
 import csv
 
 
