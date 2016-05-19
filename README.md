@@ -34,9 +34,11 @@ Output:
 
 Performance analysis includes: 
 * Timings 
-* Profiles 
+* Profiles
+ 
 See efficiency analysis.py output below: 
 
+```
 ______General descriptive information_______
 
     Number of queries (lines) in queries file (queries/queries.txt):  2
@@ -164,5 +166,7 @@ ______PROFILING WITH cProfile (with dataset loading, no printout)______
         2    0.000    0.000    0.000    0.000 codecs.py:306(__init__)
         2    0.000    0.000    0.000    0.000 codecs.py:257(__init__)
         1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+```
 
 
