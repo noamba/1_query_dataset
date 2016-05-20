@@ -40,10 +40,12 @@ To install and run on linux:
 
 ```
 Install git and virtualenv, then issue:
-git clone https://github.com/noamba/1_query_dataset somedir
+mkdir somedir
 cd somedir
-virtualenv -p python3 env
-source env/bin/activate 
+virtualenv -p python3 envdir
+git clone https://github.com/noamba/1_query_dataset codedir
+cd codedir
+source ../envdir/bin/activate 
 pip3 install -r requirements.txt
 ```
 
