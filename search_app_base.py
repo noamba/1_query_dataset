@@ -1,3 +1,10 @@
+"""
+Note: This is the initial phase of this exercise. As I moved on from it 
+pretty quickly  I didn't spend much time and effort on it. 
+For better  code and comments see 'search_app_improved.py'.
+"""
+
+
 import csv
 
 
@@ -33,7 +40,7 @@ def process_query(query, dataset):
 
     # score every line in dataset against query keywords
     for entry in dataset:
-        score = calculate_score_1(keywords, entry)
+        score = calculate_score(keywords, entry)
         if score > 0:
             matches += 1
             results.append([str(score)] + entry)
@@ -42,27 +49,6 @@ def process_query(query, dataset):
 
 
 def calculate_score(keywords, entry):
-
-    entry_line = entry[2] + " " + entry[1]
-    entry = entry_line.split()
-
-    score = 0
-    for kw in keywords:
-        for word in entry:
-            if kw == word:
-                score += 1
-            elif kw.lower() == word.lower():
-                score += 0.8
-            elif word.startswith(kw):
-                score += 0.5
-
-    if score > 0:
-        score = (float(score)/len(entry))
-
-    return score
-
-
-def calculate_score_1(keywords, entry):
 
     entry_line = entry[2] + " " + entry[1]
     entry = set(entry_line.split())
