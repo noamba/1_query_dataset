@@ -5,6 +5,7 @@ import csv
 from collections import defaultdict
 from stop_words import get_stop_words
 
+
 def main(dataset, queries_file, print_output):
     data_set_dicts_list = load_dataset(dataset)
     process_query_file(queries_file, print_output, data_set_dicts_list)
@@ -12,35 +13,38 @@ def main(dataset, queries_file, print_output):
 
 def load_dataset(dataset_file):
     """
-    It is more efficient (O(n) vs. O(1)) to search a dictionary or a set 
+    It is more efficient (O(n) vs. O(1)) to search a dictionary or a set
     compared to a list as they are implemented with a hash.
-    Therefore, the dataset is kept with 2 dictionaries where the values are sets.
+    Therefore, the dataset is kept with 2 dictionaries where
+    the values are sets.
     """
     items_original_form = defaultdict(set)
     items_by_keyword_start = defaultdict(set)
     items_by_id = defaultdict(set)
-    
+
     stop_words = get_stop_words('english')
 
     with open(dataset_file) as f:
         lines = csv.reader(f, delimiter=',')
         for line in lines:
 
-            item_id, *descriptors = line  
+            item_id, *descriptors = line
 
-            # save original form (3 seperate fields: id, description, company name) for output
+            # save original form (3 seperate fields:
+            # id, description, company name) for output
             items_original_form[item_id] = descriptors
 
-            # create 2 dictionaries for searching: 
-            # 1. Key: 3 lower-case first letters of each word of item descriptors. Value: item ids. 
+            # create 2 dictionaries for searching:
+            # 1. Key: 3 lower-case first letters of each
+            # word of item descriptors. Value: item ids.
             # 2. Key: item id. Value: item descriptors in lower-case.
             descriptors_set = set(" ".join(descriptors).lower().split())
             for d in descriptors_set:
                 if d not in stop_words:
-                    items_by_keyword_start[d[:3]].add(item_id) 
+                    items_by_keyword_start[d[:3]].add(item_id)
             items_by_id[item_id] = descriptors_set
-            
-    return (items_by_keyword_start,items_by_id, items_original_form)
+
+    return (items_by_keyword_start, items_by_id, items_original_form)
 
 
 def process_query_file(file, print_output, data_set_dicts_list):
@@ -49,16 +53,18 @@ def process_query_file(file, print_output, data_set_dicts_list):
             _process_one_query(query_line, print_output, *data_set_dicts_list)
 
 
-def _process_one_query(query, print_output, items_by_keyword_start, items_by_id, items_original_form):
+def _process_one_query(query, print_output,
+                       items_by_keyword_start,
+                       items_by_id, items_original_form):
     keywords = query.lower().split()
     relevant_items_id = set()
     results = []
 
-    # make set of items that have at least one word that starts the same as 
+    # make set of items that have at least one word that starts the same as
     # one word in query (first 3 letters)
     for k in keywords:
         relevant_items_id.update(items_by_keyword_start[k[:3]])
-    
+
     # get score for each matching item
     for item_id in relevant_items_id:
         score = _calculate_score(keywords, items_by_id[item_id])
@@ -68,7 +74,7 @@ def _process_one_query(query, print_output, items_by_keyword_start, items_by_id,
     if print_output:
         _print_results(query, results)
 
-    return 
+    return
 
 
 def _calculate_score(keywords, item):
@@ -76,29 +82,31 @@ def _calculate_score(keywords, item):
     keywords_length = len(keywords)
     # look for full words
     score, remaining_keywords, remaining_item =\
-            _find_match(keywords, 
-                            item,
-                            "full_word",
-                            1,
-                            score)
-    if remaining_keywords and remaining_item: 
+        _find_match(keywords,
+                    item,
+                    "full_word",
+                    1,
+                    score)
+    if remaining_keywords and remaining_item:
         # look for partial words in remaining keywords and item words
         score, *__ =\
-                _find_match(remaining_keywords, 
-                                remaining_item,
-                                "start_of_word",
-                                0.3,
-                                score)
+            _find_match(remaining_keywords,
+                        remaining_item,
+                        "start_of_word",
+                        0.3,
+                        score)
     if score > 0:
         score = (float(score)/keywords_length)
 
     return score
 
+
 def _find_match(keywords, item, match_type, points_for_similarity, score):
 
-    # using local copies that will be consumed as item words and keywords are matched.
-    # maintaining original items intact for next items and queries 
-    remaining_item = item.copy() 
+    # using local copies that will be consumed
+    # as item words and keywords are matched.
+    # maintaining original items intact for next items and queries
+    remaining_item = item.copy()
     remaining_keywords = keywords.copy()
 
     # using copies as cannot remove items from iterables as iterating on them
@@ -107,12 +115,14 @@ def _find_match(keywords, item, match_type, points_for_similarity, score):
         remaining_item_copy = remaining_item.copy()
         for word in remaining_item_copy:
             if (match_type == "full_word" and kw == word)\
-                   or\
-                   (match_type == "start_of_word" and (word.startswith(kw) or kw.startswith(word))):
-            
-                score += points_for_similarity 
+                or\
+                (match_type == "start_of_word" and
+                               (word.startswith(kw) or
+                                kw.startswith(word))):
+
+                score += points_for_similarity
                 # if there was a match:
-                # 1. remove words from remaining_item and query keywords 
+                # 1. remove words from remaining_item and query keywords
                 remaining_item.remove(word)
                 remaining_keywords.remove(kw)
                 # 2. stop looking for matches for this current keyword

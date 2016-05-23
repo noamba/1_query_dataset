@@ -1,6 +1,6 @@
 """
-Note: This is the initial phase of this exercise. As I moved on from it 
-pretty quickly  I didn't spend much time and effort on it. 
+Note: This is the initial phase of this exercise. As I moved on from it
+pretty quickly  I didn't spend much time and effort on it.
 For better  code and comments see 'search_app_improved.py'.
 """
 
