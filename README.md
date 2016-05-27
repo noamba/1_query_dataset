@@ -1,4 +1,4 @@
-# query_dataset
+# query-dataset
 
 *****
 Runs on Python 3
