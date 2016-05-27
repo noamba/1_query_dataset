@@ -1,4 +1,5 @@
 import unittest
+
 from search_app_base import calculate_score 
 
 """
