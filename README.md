@@ -43,7 +43,7 @@ Install git and virtualenv, then issue:
 mkdir somedir
 cd somedir
 virtualenv -p python3 envdir
-git clone https://github.com/noamba/1_query_dataset codedir
+git clone https://github.com/noamba/query-dataset codedir
 cd codedir
 source ../envdir/bin/activate 
 pip3 install -r requirements.txt
